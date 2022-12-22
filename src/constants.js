@@ -8,7 +8,7 @@ exports.REMOTE_KNEX_USER1 = 'wdscnzxj'
 exports.REMOTE_KNEX_PWD1 = 'O-7H6IKT6Hhi_xGU7J_rHSBjvbNO218s'
 exports.REMOTE_KNEX_DATABASE1 = 'wdscnzxj'
 //------------------------------------------------------------------------
-//  Database (Remote 2) postgresql://postgres:MpshoqIm2WsiSFOTH2j8@containers-us-west-176.railway.app:5975/railway
+//  Database (Remote 2)
 //------------------------------------------------------------------------
 exports.REMOTE_KNEX_CLIENT2 = 'pg'
 exports.REMOTE_KNEX_PORT2 = 5975
