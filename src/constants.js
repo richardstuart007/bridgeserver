@@ -45,14 +45,14 @@ exports.SERVERPORT_SRVLOC_DB7 = 3917
 //  corsWhitelist
 //---------------------------------------------------------------------
 exports.CORS_WHITELIST_SRVREM_DB1 = [
-  'https://quizclient021render.onrender.com',
-  'https://quizdataentry021render.onrender.com',
+  'https://bridgeclient01.onrender.com',
+  'https://bridgedataentry01.onrender.com',
   'http://localhost:3801',
   'http://localhost:3701'
 ]
 exports.CORS_WHITELIST_SRVREM_DB2 = [
-  'https://bridgeclient.onrender.com',
-  'https://bridgedataentry.onrender.com',
+  'https://bridgeclient02.onrender.com',
+  'https://bridgedataentry02.onrender.com',
   'http://localhost:3802',
   'http://localhost:3702'
 ]
