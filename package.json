@@ -5,11 +5,12 @@
   "description": "Bridge School Server",
   "main": "node src/server/serverRemote2.js",
   "scripts": {
-    "start": "node src/server/serverRemote2.js",
-    "startlocrem1": "node src/server/serverLocRem1.js",
-    "startlocrem2": "node src/server/serverLocRem2.js",
-    "startlocloc6": "node src/server/serverLocLoc6.js",
-    "startlocloc7": "node src/server/serverLocLoc7.js"
+    "start01": "node src/server/server.js 01",
+    "start02": "node src/server/server.js 02",
+    "start11": "node src/server/server.js 11",
+    "start12": "node src/server/server.js 12",
+    "start16": "node src/server/server.js 16",
+    "start17": "node src/server/server.js 17"
   },
   "author": "Richard",
   "license": "ISC",
