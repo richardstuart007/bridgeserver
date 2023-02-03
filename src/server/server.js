@@ -10,9 +10,9 @@ const myCors = require('cors')
 //
 //  Components
 //
-const serverRaw = require('../controllers/serverRaw')
-const serverRegister = require('../controllers/serverRegister')
-const serverSignin = require('../controllers/serverSignin')
+const Raw = require('../controllers/Raw')
+const Register = require('../controllers/Register')
+const Signin = require('../controllers/Signin')
 //.............................................................................
 //.  Initialisation
 //.............................................................................
@@ -87,26 +87,26 @@ const { URL_SIGNIN, URL_TABLES, URL_REGISTER } = require('../constants.js')
 //.  Routes - Tables
 // --------------------
 myRouter.post(URL_TABLES, (req, res) => {
-  logRawTables(req, 'POST', 'RAW', 'serverRaw')
-  serverRaw.serverRaw(req, res, db, logCounter)
+  logRawTables(req, 'POST', 'RAW', 'Raw')
+  Raw.Raw(req, res, db, logCounter)
 })
 myRouter.delete(URL_TABLES, (req, res) => {
-  logRawTables(req, 'DELETE', 'RAW', 'serverRaw')
-  serverRaw.serverRaw(req, res, db, logCounter)
+  logRawTables(req, 'DELETE', 'RAW', 'Raw')
+  Raw.Raw(req, res, db, logCounter)
 })
 // --------------------
 //.  Routes - SignIn
 // --------------------
 myRouter.post(URL_SIGNIN, (req, res) => {
   logRawSignIn(req, 'POST Signin')
-  serverSignin.serverSignin(req, res, db, logCounter)
+  Signin.Signin(req, res, db, logCounter)
 })
 // --------------------
 //.  Routes - Register
 // --------------------
 myRouter.post(URL_REGISTER, (req, res) => {
   logRawSignIn(req, 'POST Register')
-  serverRegister.serverRegister(req, res, db, logCounter)
+  Register.Register(req, res, db, logCounter)
 })
 //.............................................................................
 //.  Start Server

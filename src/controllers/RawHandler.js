@@ -5,7 +5,7 @@
 // Constants
 //
 const debugLog = false
-const moduleName = 'serverRawHandler'
+const moduleName = 'RawHandler'
 //.................................
 //  Object returned by this module
 //.................................
@@ -21,7 +21,7 @@ const rtnObj = {
 //==================================================================================
 //= Main ASYNC Function
 //==================================================================================
-async function serverRawHandler(db, bodyParms) {
+async function RawHandler(db, bodyParms) {
   try {
     //
     //  Initialise Values
@@ -120,6 +120,9 @@ async function sqlDatabase(
   // Define Return Variable
   //
   let sqlData
+  //
+  //  Try/Catch
+  //
   try {
     switch (sqlAction) {
       case 'SELECTSQL':
@@ -188,5 +191,5 @@ async function sqlDatabase(
 //! Exports
 //!==================================================================================
 module.exports = {
-  serverRawHandler
+  RawHandler
 }

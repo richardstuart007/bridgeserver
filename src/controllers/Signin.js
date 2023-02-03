@@ -2,18 +2,17 @@
 //= Process a Signin fetch request from server route
 //==================================================================================
 const { format } = require('date-fns')
-const serverSigninHandler = require('./serverSigninHandler')
+const SigninHandler = require('./SigninHandler')
 //
 // Constants
 //
-const debugLog = false
-const moduleName = 'serverSignin'
+const debugLog = true
+const moduleName = 'Signin'
 //
 //  Global Variable - Define return object
 //
-const CatchFunction = 'serverSignin'
 let rtnObj = {
-  rtnValue: '',
+  rtnValue: false,
   rtnMessage: '',
   rtnSqlFunction: moduleName,
   rtnCatchFunction: '',
@@ -24,14 +23,23 @@ let rtnObj = {
 //==================================================================================
 //= Signin a User
 //==================================================================================
-async function serverSignin(req, res, db, logCounter) {
+async function Signin(req, res, db, logCounter) {
   //
   //  Time Stamp
   //
   const TimeStamp = format(new Date(), 'yyLLddHHmmss')
   let logMessage = `Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName})`
-
   try {
+    //
+    //  Initialise Values
+    //
+    rtnObj.rtnValue = false
+    rtnObj.rtnMessage = ''
+    rtnObj.rtnSqlFunction = moduleName
+    rtnObj.rtnCatchFunction = ''
+    rtnObj.rtnCatch = false
+    rtnObj.rtnCatchMsg = ''
+    rtnObj.rtnRows = []
     //..................................................................................
     //. Check values sent in Body
     //..................................................................................
@@ -42,13 +50,12 @@ async function serverSignin(req, res, db, logCounter) {
     //
     if (!user || !password) {
       rtnObj.rtnMessage = `User or Password empty`
-      rtnObj.rtnCatchFunction = CatchFunction
       return res.status(400).json(rtnObj)
     }
     //
     // Process Request Promises(ALL)
     //
-    const returnData = await Promise.all([serverSigninHandler.serverSigninHandler(db, bodyParms)])
+    const returnData = await Promise.all([SigninHandler.SigninHandler(db, bodyParms)])
     if (debugLog) console.log(`module(${moduleName}) returnData `, returnData)
     //
     // Parse Results
@@ -56,12 +63,24 @@ async function serverSignin(req, res, db, logCounter) {
     const returnDataObject = returnData[0]
     rtnObj = Object.assign({}, returnDataObject)
     //
-    //  Error
+    //  Return values
     //
+    if (debugLog) {
+      console.log(`HANDLER. ${logCounter} Time:${TimeStamp} Module(${moduleName}) ${rtnObj}`)
+    }
     const rtnValue = rtnObj.rtnValue
+    //
+    //  Not found
+    //
     if (!rtnValue) {
-      if (debugLog) console.log(`module(${moduleName}) rtnObj `, rtnObj)
-      return res.status(220).send(rtnObj)
+      if (debugLog) {
+        let message
+        rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
+        console.log(
+          `Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) message(${message})`
+        )
+      }
+      return res.status(220).json(rtnObj)
     }
     //
     //  Log return values
@@ -69,7 +88,10 @@ async function serverSignin(req, res, db, logCounter) {
     const records = Object.keys(rtnObj.rtnRows).length
     logMessage = logMessage + ` records(${records})`
     console.log(logMessage)
-    if (debugLog) console.log(`module(${moduleName}) rtnObj `, rtnObj)
+    if (debugLog)
+      console.log(
+        `Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) records(${records})`
+      )
     return res.status(200).json(rtnObj)
     //
     // Errors
@@ -79,14 +101,13 @@ async function serverSignin(req, res, db, logCounter) {
     console.log(logMessage)
     rtnObj.rtnCatch = true
     rtnObj.rtnCatchMsg = err.message
-    rtnObj.rtnCatchFunction = CatchFunction
-    if (debugLog) console.log(`module(${moduleName}) rtnObj `, rtnObj)
-    return res.status(400).send(rtnObj)
+    rtnObj.rtnCatchFunction = moduleName
+    return res.status(400).json(rtnObj)
   }
 }
 //!==================================================================================
 //! Exports
 //!==================================================================================
 module.exports = {
-  serverSignin
+  Signin
 }

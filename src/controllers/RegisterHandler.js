@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 // Constants
 //
 const debugLog = false
-const moduleName = 'serverRegisterHandler'
+const moduleName = 'RegisterHandler'
 //.................................
 //  Object returned by this module
 //.................................
@@ -22,7 +22,7 @@ const rtnObj = {
 //==================================================================================
 //= Main ASYNC Function
 //==================================================================================
-async function serverRegisterHandler(db, bodyParms) {
+async function RegisterHandler(db, bodyParms) {
   try {
     //
     //  Destructure Parameters
@@ -136,8 +136,20 @@ async function sqlDatabase(
       .into('users')
       .returning('*')
     //-------------------------------------------------------------
-    //  Registration failed
+    //  Usersowner Insert
     //-------------------------------------------------------------
+    const uoid = data_userspwd[0].upid
+    data_users = await db
+      .insert({
+        uoid: uoid,
+        uouser: user,
+        uoowner: [dftowner]
+      })
+      .into('usersowner')
+      .returning('*')
+    //-------------------------------------------------------------
+    //  Registration failed
+    //------------------------------------------------------------
     if (!data_users || !data_users[0]) {
       rtnObj.rtnMessage = `Register User: FAILED`
       if (debugLog) console.log(`module(${moduleName}) rtnMessage `, rtnObj.rtnMessage)
@@ -177,5 +189,5 @@ async function sqlDatabase(
 //! Exports
 //!==================================================================================
 module.exports = {
-  serverRegisterHandler
+  RegisterHandler
 }
