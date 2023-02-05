@@ -23,7 +23,7 @@ exports.KNEX_CLIENT6 = 'pg'
 exports.KNEX_HOST6 = '127.0.0.1'
 exports.KNEX_USER6 = 'richa'
 exports.KNEX_PWD6 = 'london'
-exports.KNEX_DATABASE6 = 'Bridge6'
+exports.KNEX_DATABASE6 = 'bridge6'
 //------------------------------------------------------------------------
 //  Database (Local 7)
 //------------------------------------------------------------------------
@@ -31,7 +31,7 @@ exports.KNEX_CLIENT7 = 'pg'
 exports.KNEX_HOST7 = '127.0.0.1'
 exports.KNEX_USER7 = 'richa'
 exports.KNEX_PWD7 = 'london'
-exports.KNEX_DATABASE7 = 'Bridge7'
+exports.KNEX_DATABASE7 = 'bridge7'
 //------------------------------------------------------------------------
 //  PORTS
 //------------------------------------------------------------------------

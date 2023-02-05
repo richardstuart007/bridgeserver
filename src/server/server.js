@@ -20,12 +20,27 @@ const debugLog = true
 //
 //  Arguments
 //
-const Nodemodule = process.argv[0]
+const node_module = process.argv[0]
 const script_path = process.argv[1]
 const server_database = process.argv[2]
-if (debugLog) console.log('Nodemodule ', Nodemodule)
+if (debugLog) console.log('node_module ', node_module)
 if (debugLog) console.log('script_path ', script_path)
 if (debugLog) console.log('server_database ', server_database)
+//
+//  Check if server is remote version run locally
+//
+let isLocalEnvironment = false
+if (server_database >= 10) isLocalEnvironment = true
+if (debugLog) console.log('isLocalEnvironment ', isLocalEnvironment)
+const localpath = 'C:'
+const isLocalProgram = script_path.substring(0, 2) === localpath
+if (debugLog) console.log('isLocalProgram ', isLocalProgram)
+if (isLocalProgram & !isLocalEnvironment) {
+  console.log(
+    `Error: Database is REMOTE(${server_database}) but trying to run LOCAL server to LOCAL database`
+  )
+  return
+}
 //
 //  Counter
 //
