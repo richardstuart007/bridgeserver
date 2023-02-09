@@ -123,7 +123,6 @@ async function sqlDatabase(db, user, password) {
     if (!data_usersowner) {
       rtnObj.rtnMessage = `Database error (Usersowner) not found for user($user) id($upid)`
       if (debugLog) console.log(`module(${moduleName}) `, rtnObj.rtnMessage)
-      return
     }
     //-------------------------------------------------------------
     //  Return user found
