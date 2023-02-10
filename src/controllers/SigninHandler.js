@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 //
 // Constants
 //
-const debugLog = true
+const debugLog = false
 const moduleName = 'SigninHandler'
 //.................................
 //  Object returned by this module
