@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 //
 // Constants
 //
-const debugLog = false
+const debugLog = true
 const moduleName = 'RegisterHandler'
 //.................................
 //  Object returned by this module
@@ -35,12 +35,15 @@ async function RegisterHandler(db, bodyParms) {
       fedid,
       fedcountry,
       dftmaxquestions,
+      dftowner,
       showprogress,
       showscore,
       sortquestions,
       skipcorrect,
       admin
     } = bodyParms
+
+    if (debugLog) console.log(`bodyParms `, bodyParms)
     if (debugLog) console.log(`module(${moduleName}) 1 User(${user}) Email(${email}) name(${name})`)
     //
     // Get Database record (ASYNC)
@@ -54,6 +57,7 @@ async function RegisterHandler(db, bodyParms) {
       fedid,
       fedcountry,
       dftmaxquestions,
+      dftowner,
       showprogress,
       showscore,
       sortquestions,
@@ -140,7 +144,7 @@ async function sqlDatabase(
       .insert({
         uoid: uoid,
         uouser: user,
-        uoowner: [dftowner]
+        uoowner: dftowner
       })
       .into('usersowner')
       .returning('*')
