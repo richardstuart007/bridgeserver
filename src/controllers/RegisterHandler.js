@@ -35,7 +35,6 @@ async function RegisterHandler(db, bodyParms) {
       fedid,
       fedcountry,
       dftmaxquestions,
-      dftowner,
       showprogress,
       showscore,
       sortquestions,
@@ -55,7 +54,6 @@ async function RegisterHandler(db, bodyParms) {
       fedid,
       fedcountry,
       dftmaxquestions,
-      dftowner,
       showprogress,
       showscore,
       sortquestions,
@@ -130,7 +128,6 @@ async function sqlDatabase(
         u_sortquestions: sortquestions,
         u_skipcorrect: skipcorrect,
         u_dftmaxquestions: dftmaxquestions,
-        u_dftowner: dftowner,
         u_joined: new Date()
       })
       .into('users')
