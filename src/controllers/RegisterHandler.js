@@ -40,7 +40,8 @@ async function RegisterHandler(db, bodyParms) {
       showscore,
       sortquestions,
       skipcorrect,
-      admin
+      admin,
+      dev
     } = bodyParms
 
     if (debugLog) console.log(`bodyParms `, bodyParms)
@@ -62,7 +63,8 @@ async function RegisterHandler(db, bodyParms) {
       showscore,
       sortquestions,
       skipcorrect,
-      admin
+      admin,
+      dev
     )
     return rtnObj
     //
@@ -93,9 +95,9 @@ async function sqlDatabase(
   showscore,
   sortquestions,
   skipcorrect,
-  admin
+  admin,
+  dev
 ) {
-  let data_users
   try {
     if (debugLog) console.log(`module(${moduleName}) 5 Start db transaction`)
     //-------------------------------------------------------------
@@ -113,14 +115,14 @@ async function sqlDatabase(
       })
       .into('userspwd')
       .returning('*')
+    const upid = data_userspwd[0].upid
+    if (debugLog) console.log(`module(${moduleName}) upid `, upid)
     //-------------------------------------------------------------
     //  Users Insert
     //-------------------------------------------------------------
-    const u_id = data_userspwd[0].upid
-    if (debugLog) console.log(`module(${moduleName})u_id `, u_id)
-    data_users = await db
+    const data_users = await db
       .insert({
-        u_id: u_id,
+        u_id: upid,
         u_name: name,
         u_user: user,
         u_email: email,
@@ -132,21 +134,10 @@ async function sqlDatabase(
         u_sortquestions: sortquestions,
         u_skipcorrect: skipcorrect,
         u_dftmaxquestions: dftmaxquestions,
-        u_joined: new Date()
+        u_joined: new Date(),
+        u_dev: dev
       })
       .into('users')
-      .returning('*')
-    //-------------------------------------------------------------
-    //  Usersowner Insert
-    //-------------------------------------------------------------
-    const uoid = data_userspwd[0].upid
-    data_users = await db
-      .insert({
-        uoid: uoid,
-        uouser: user,
-        uoowner: dftowner
-      })
-      .into('usersowner')
       .returning('*')
     //-------------------------------------------------------------
     //  Registration failed
@@ -156,6 +147,16 @@ async function sqlDatabase(
       if (debugLog) console.log(`module(${moduleName}) rtnMessage `, rtnObj.rtnMessage)
       return
     }
+    //-------------------------------------------------------------
+    //  Usersowner Insert
+    //-------------------------------------------------------------
+    await db
+      .insert({
+        uoid: upid,
+        uouser: user,
+        uoowner: dftowner
+      })
+      .into('usersowner')
     //-------------------------------------------------------------
     //  Registration SUCCESS
     //-------------------------------------------------------------
