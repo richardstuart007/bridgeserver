@@ -69,6 +69,7 @@ async function sqlDatabase(db, user, password) {
   let data_userspwd = false
   let data_users = false
   let data_usersowner = false
+  let sqlWhere
   //
   //  Try/Catch
   //
@@ -77,7 +78,9 @@ async function sqlDatabase(db, user, password) {
     //-------------------------------------------------------------
     //  Userspwd GET
     //-------------------------------------------------------------
-    data_userspwd = await db.select('*').from('userspwd').where('upuser', '=', user)
+    sqlWhere = `upuser = '${user}'`
+    if (debugLog) console.log(`module(${moduleName}) userspwd - sqlWhere `, sqlWhere)
+    data_userspwd = await db.select('*').from('userspwd').whereRaw(sqlWhere)
     //
     //  Userspwd not found
     //
@@ -104,7 +107,9 @@ async function sqlDatabase(db, user, password) {
     //-------------------------------------------------------------
     //  GET Users
     //-------------------------------------------------------------
-    data_users = await db.select('*').from('users').where('u_id', '=', upid)
+    sqlWhere = `u_id = '${upid}'`
+    if (debugLog) console.log(`module(${moduleName}) users - sqlWhere `, sqlWhere)
+    data_users = await db.select('*').from('users').whereRaw(sqlWhere)
     //
     //  Not found
     //
@@ -116,7 +121,9 @@ async function sqlDatabase(db, user, password) {
     //-------------------------------------------------------------
     //  GET Usersowner
     //-------------------------------------------------------------
-    data_usersowner = await db.select('*').from('usersowner').where('uoid', '=', upid)
+    sqlWhere = `uoid = '${upid}'`
+    if (debugLog) console.log(`module(${moduleName}) usersowner - sqlWhere `, sqlWhere)
+    data_usersowner = await db.select('*').from('usersowner').whereRaw(sqlWhere)
     //
     //  Not found
     //
