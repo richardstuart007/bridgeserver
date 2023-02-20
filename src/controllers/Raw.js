@@ -87,13 +87,13 @@ async function Raw(req, res, db, logCounter) {
     //  Return values
     //
     if (debugLog) {
-      console.log(`HANDLER. ${logCounter} Time:${TimeStamp} Module(${moduleName}) ${rtnObj}`)
+      console.log(`Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) ${rtnObj}`)
     }
     const rtnValue = rtnObj.rtnValue
     if (!rtnValue) {
       if (debugLog)
         console.log(
-          `HANDLER. ${logCounter} Time:${TimeStamp} Module(${moduleName}) received No Data`
+          `Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) received No Data`
         )
     }
     //

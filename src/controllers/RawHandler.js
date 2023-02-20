@@ -120,6 +120,7 @@ async function sqlDatabase(
   // Define Return Variable
   //
   let sqlData
+  let returning = false
   //
   //  Try/Catch
   //
@@ -136,12 +137,16 @@ async function sqlDatabase(
         }
         break
       case 'UPDATE':
+        returning = true
         sqlData = await db.update(sqlRow).from(sqlTable).whereRaw(sqlWhere).returning(['*'])
+
         break
       case 'DELETE':
+        returning = true
         sqlData = await db.del().from(sqlTable).whereRaw(sqlWhere).returning(['*'])
         break
       case 'INSERT':
+        returning = true
         if (sqlKeyName) {
           sqlData = await db
             .insert(sqlRow)
@@ -154,6 +159,7 @@ async function sqlDatabase(
         }
         break
       case 'UPSERT':
+        returning = true
         sqlData = await db
           .insert(sqlRow)
           .into(sqlTable)
@@ -163,9 +169,10 @@ async function sqlDatabase(
         break
     }
     //
-    //  No results
+    //  Expect returning value
     //
-    if (!sqlData || !sqlData[0]) {
+    if (debugLog) console.log(`module(${moduleName}) sqlData `, sqlData)
+    if (returning && (!sqlData || !sqlData[0])) {
       rtnObj.rtnMessage = `SqlAction ${sqlAction}: FAILED`
       return
     }

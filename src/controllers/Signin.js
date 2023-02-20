@@ -66,7 +66,7 @@ async function Signin(req, res, db, logCounter) {
     //  Return values
     //
     if (debugLog) {
-      console.log(`HANDLER. ${logCounter} Time:${TimeStamp} Module(${moduleName}) ${rtnObj}`)
+      console.log(`Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) ${rtnObj}`)
     }
     const rtnValue = rtnObj.rtnValue
     //
