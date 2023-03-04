@@ -13,10 +13,14 @@ const myCors = require('cors')
 const Raw = require('../controllers/Raw')
 const Register = require('../controllers/Register')
 const Signin = require('../controllers/Signin')
+//
+//  Debug Settings
+//
+const debugSettings = require('../debug/debugSettings')
+const debugLog = debugSettings.debugSettings()
 //.............................................................................
 //.  Initialisation
 //.............................................................................
-const debugLog = false
 //
 //  Arguments
 //

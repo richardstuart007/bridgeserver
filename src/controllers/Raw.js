@@ -4,9 +4,13 @@
 const { format } = require('date-fns')
 const RawHandler = require('./RawHandler')
 //
+//  Debug Settings
+//
+const debugSettings = require('../debug/debugSettings')
+const debugLog = debugSettings.debugSettings()
+//
 // Constants
 //
-const debugLog = false
 const moduleName = 'Raw'
 //
 //  Object returned by this handler
@@ -87,14 +91,7 @@ async function Raw(req, res, db, logCounter) {
     //  Return values
     //
     if (debugLog) {
-      console.log(`Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) ${rtnObj}`)
-    }
-    const rtnValue = rtnObj.rtnValue
-    if (!rtnValue) {
-      if (debugLog)
-        console.log(
-          `Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) received No Data`
-        )
+      console.log(`Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) rtnObj `, rtnObj)
     }
     //
     //  Log return values

@@ -2,9 +2,13 @@
 //! Run Raw SQL
 //!==================================================================================
 //
+//  Debug Settings
+//
+const debugSettings = require('../debug/debugSettings')
+const debugLog = debugSettings.debugSettings()
+//
 // Constants
 //
-const debugLog = false
 const moduleName = 'RawHandler'
 //.................................
 //  Object returned by this module
@@ -41,7 +45,7 @@ async function RawHandler(db, bodyParms) {
     //
     const { sqlAction, sqlString, sqlTable, sqlWhere, sqlOrderByRaw, sqlRow, sqlKeyName } =
       bodyParms
-    if (debugLog) console.log(`module(${moduleName}) sqlAction ${sqlAction}`)
+    if (debugLog) console.log(`module(${moduleName}) bodyParms `, bodyParms)
     //
     // Check values sent
     //

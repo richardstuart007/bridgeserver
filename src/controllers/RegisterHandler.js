@@ -3,9 +3,13 @@
 //!==================================================================================
 const bcrypt = require('bcrypt')
 //
+//  Debug Settings
+//
+const debugSettings = require('../debug/debugSettings')
+const debugLog = debugSettings.debugSettings()
+//
 // Constants
 //
-const debugLog = false
 const moduleName = 'RegisterHandler'
 //.................................
 //  Object returned by this module
@@ -43,9 +47,7 @@ async function RegisterHandler(db, bodyParms) {
       admin,
       dev
     } = bodyParms
-
     if (debugLog) console.log(`bodyParms `, bodyParms)
-    if (debugLog) console.log(`module(${moduleName}) 1 User(${user}) Email(${email}) name(${name})`)
     //
     // Get Database record (ASYNC)
     //
@@ -99,7 +101,6 @@ async function sqlDatabase(
   dev
 ) {
   try {
-    if (debugLog) console.log(`module(${moduleName}) 5 Start db transaction`)
     //-------------------------------------------------------------
     //  Hash the password
     //-------------------------------------------------------------

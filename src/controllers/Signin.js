@@ -4,9 +4,13 @@
 const { format } = require('date-fns')
 const SigninHandler = require('./SigninHandler')
 //
+//  Debug Settings
+//
+const debugSettings = require('../debug/debugSettings')
+const debugLog = debugSettings.debugSettings()
+//
 // Constants
 //
-const debugLog = false
 const moduleName = 'Signin'
 //
 //  Global Variable - Define return object
@@ -66,7 +70,7 @@ async function Signin(req, res, db, logCounter) {
     //  Return values
     //
     if (debugLog) {
-      console.log(`Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) ${rtnObj}`)
+      console.log(`Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) rtnObj `, rtnObj)
     }
     const rtnValue = rtnObj.rtnValue
     //
@@ -88,10 +92,6 @@ async function Signin(req, res, db, logCounter) {
     const records = Object.keys(rtnObj.rtnRows).length
     logMessage = logMessage + ` records(${records})`
     console.log(logMessage)
-    if (debugLog)
-      console.log(
-        `Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) records(${records})`
-      )
     return res.status(200).json(rtnObj)
     //
     // Errors

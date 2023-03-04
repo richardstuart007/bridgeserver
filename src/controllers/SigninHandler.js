@@ -3,9 +3,13 @@
 //!==================================================================================
 const bcrypt = require('bcrypt')
 //
+//  Debug Settings
+//
+const debugSettings = require('../debug/debugSettings')
+const debugLog = debugSettings.debugSettings()
+//
 // Constants
 //
-const debugLog = false
 const moduleName = 'SigninHandler'
 //.................................
 //  Object returned by this module
@@ -41,12 +45,12 @@ async function SigninHandler(db, bodyParms) {
     //  Destructure Parameters
     //
     const { user, password } = bodyParms
-    if (debugLog) console.log(`module(${moduleName}) Signin(${user})`)
+    if (debugLog) console.log(`module(${moduleName}) bodyParms `, bodyParms)
     //
     // Get Database record (ASYNC)
     //
     await sqlDatabase(db, user, password)
-    if (debugLog) console.log(`rtnObj `, rtnObj)
+    if (debugLog) console.log(`module(${moduleName}) rtnObj `, rtnObj)
     return rtnObj
     //
     // Errors
@@ -86,7 +90,7 @@ async function sqlDatabase(db, user, password) {
     //
     if (!data_userspwd || !data_userspwd[0]) {
       rtnObj.rtnMessage = `Invalid User, please Register`
-      if (debugLog) console.log(`module(${moduleName}) `, rtnObj.rtnMessage)
+      if (debugLog) console.log(`module(${moduleName}) rtnMessage `, rtnObj.rtnMessage)
       return
     }
     //-------------------------------------------------------------
@@ -97,7 +101,7 @@ async function sqlDatabase(db, user, password) {
     const valid = bcrypt.compareSync(password, uphash)
     if (!valid) {
       rtnObj.rtnMessage = `Invalid Password`
-      if (debugLog) console.log(`module(${moduleName}) `, rtnObj.rtnMessage)
+      if (debugLog) console.log(`module(${moduleName}) rtnMessage`, rtnObj.rtnMessage)
       return
     }
     //
@@ -115,7 +119,7 @@ async function sqlDatabase(db, user, password) {
     //
     if (!data_users || !data_users[0]) {
       rtnObj.rtnMessage = `Database error (Users) not found for user($user) id($upid)`
-      if (debugLog) console.log(`module(${moduleName}) `, rtnObj.rtnMessage)
+      if (debugLog) console.log(`module(${moduleName}) rtnMessage`, rtnObj.rtnMessage)
       return
     }
     //-------------------------------------------------------------
@@ -129,13 +133,13 @@ async function sqlDatabase(db, user, password) {
     //
     if (!data_usersowner) {
       rtnObj.rtnMessage = `Database error (Usersowner) not found for user($user) id($upid)`
-      if (debugLog) console.log(`module(${moduleName}) `, rtnObj.rtnMessage)
+      if (debugLog) console.log(`module(${moduleName}) rtnMessage `, rtnObj.rtnMessage)
     }
     //-------------------------------------------------------------
     //  Return user found
     //-------------------------------------------------------------
-    if (debugLog) console.log(`module(${moduleName}) `, data_users)
-    if (debugLog) console.log(`module(${moduleName}) `, data_usersowner)
+    if (debugLog) console.log(`module(${moduleName}) data_users`, data_users)
+    if (debugLog) console.log(`module(${moduleName}) data_usersowner`, data_usersowner)
     //
     // Update Return Values
     //
@@ -148,7 +152,7 @@ async function sqlDatabase(db, user, password) {
     // Errors
     //-------------------------------------------------------------
   } catch (err) {
-    console.log(`module(${moduleName}) `, err.message)
+    console.log(`module(${moduleName}) err.message `, err.message)
     rtnObj.rtnCatch = true
     rtnObj.rtnCatchMsg = err.message
     rtnObj.rtnCatchFunction = moduleName
