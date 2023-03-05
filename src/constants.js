@@ -63,6 +63,7 @@ exports.CORS_WHITELIST_SRVLOC_DB7 = ['http://localhost:3817', 'http://localhost:
 //------------------------------------------------------------------------
 //  URL
 //------------------------------------------------------------------------
+exports.URL_HELLO = '/QuizHello'
 exports.URL_TABLES = '/QuizTables'
 exports.URL_REGISTER = '/QuizRegister'
 exports.URL_SIGNIN = '/QuizSignin'

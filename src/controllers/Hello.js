@@ -1,14 +1,14 @@
 //==================================================================================
-//= Process a Signin fetch request from server route
+//= Process a Hello fetch request from server route
 //==================================================================================
 const { format } = require('date-fns')
-const SigninHandler = require('./SigninHandler')
+const HelloHandler = require('./HelloHandler')
 //
 //  Debug Settings
 //
 const debugSettings = require('../debug/debugSettings')
 const debugLog = debugSettings.debugSettings()
-const moduleName = 'Signin'
+const moduleName = 'Hello'
 //
 //  Global Variable - Define return object
 //
@@ -22,9 +22,7 @@ let rtnObj = {
   rtnRows: []
 }
 //==================================================================================
-//= Signin a User
-//==================================================================================
-async function Signin(req, res, db, logCounter) {
+async function Hello(req, res, db, logCounter) {
   //
   //  Time Stamp
   //
@@ -41,22 +39,32 @@ async function Signin(req, res, db, logCounter) {
     rtnObj.rtnCatch = false
     rtnObj.rtnCatchMsg = ''
     rtnObj.rtnRows = []
-    //..................................................................................
-    //. Check values sent in Body
-    //..................................................................................
+    //
+    //  Body parameters
+    //
     const bodyParms = req.body
-    const { user, password } = bodyParms
     //
-    //  Check required parameters
+    //  Action type not sent
     //
-    if (!user || !password) {
-      rtnObj.rtnMessage = `User or Password empty`
+    const { helloType } = bodyParms
+    //
+    //  Check Action passed
+    //
+    if (!helloType) {
+      rtnObj.rtnMessage = `helloType not sent as Body Parameters`
+      return res.status(400).json(rtnObj)
+    }
+    //
+    //  Validate helloType type
+    //
+    if (helloType !== 'SERVER' && helloType !== 'DATABASE') {
+      rtnObj.rtnMessage = `sqlAction ${helloType}: helloType not valid`
       return res.status(400).json(rtnObj)
     }
     //
     // Process Request Promises(ALL)
     //
-    const returnData = await Promise.all([SigninHandler.SigninHandler(db, bodyParms)])
+    const returnData = await Promise.all([HelloHandler.HelloHandler(db, bodyParms)])
     if (debugLog) console.log(`module(${moduleName}) returnData `, returnData)
     //
     // Parse Results
@@ -86,8 +94,7 @@ async function Signin(req, res, db, logCounter) {
     //
     //  Log return values
     //
-    const records = Object.keys(rtnObj.rtnRows).length
-    logMessage = logMessage + ` records(${records})`
+    logMessage = logMessage + ` HelloType(${helloType}) SUCCESS`
     console.log(logMessage)
     return res.status(200).json(rtnObj)
     //
@@ -106,5 +113,5 @@ async function Signin(req, res, db, logCounter) {
 //! Exports
 //!==================================================================================
 module.exports = {
-  Signin
+  Hello
 }

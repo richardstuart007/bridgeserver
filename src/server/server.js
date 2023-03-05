@@ -10,6 +10,7 @@ const myCors = require('cors')
 //
 //  Components
 //
+const Hello = require('../controllers/Hello')
 const Raw = require('../controllers/Raw')
 const Register = require('../controllers/Register')
 const Signin = require('../controllers/Signin')
@@ -101,7 +102,14 @@ console.log(
 //.............................................................................
 // Routes
 //.............................................................................
-const { URL_SIGNIN, URL_TABLES, URL_REGISTER } = require('../constants.js')
+const { URL_HELLO, URL_SIGNIN, URL_TABLES, URL_REGISTER } = require('../constants.js')
+// --------------------
+//.  Routes - Hello
+// --------------------
+myRouter.post(URL_HELLO, (req, res) => {
+  logHello(req)
+  Hello.Hello(req, res, db, logCounter)
+})
 // --------------------
 //.  Routes - Tables
 // --------------------
@@ -363,5 +371,24 @@ function logRawSignIn(req, fetchAction) {
   let logMessage = `Server.. ${logCounter} Time:${TimeStamp} Module(${moduleName}) sqlClient(${sqlClient}) fetchAction(${fetchAction}) User(${user})`
   if (name) logMessage.concat(` Name(${name})`)
   if (id) logMessage.concat(` ID(${id})`)
+  console.log(logMessage)
+}
+//.............................................................................
+//.  Log the Body to the console
+//.............................................................................
+function logHello(req) {
+  //
+  //  Destructure Parameters
+  //
+  const { sqlClient, helloType } = req.body
+  //
+  //  Counter
+  //
+  const TimeStamp = format(new Date(), 'yyLLddHHmmss')
+  logCounter++
+  //
+  // Format message & Log
+  //
+  let logMessage = `Server.. ${logCounter} Time:${TimeStamp} Module(${moduleName}) sqlClient(${sqlClient}) helloType(${helloType})`
   console.log(logMessage)
 }

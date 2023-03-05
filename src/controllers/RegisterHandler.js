@@ -7,9 +7,6 @@ const bcrypt = require('bcrypt')
 //
 const debugSettings = require('../debug/debugSettings')
 const debugLog = debugSettings.debugSettings()
-//
-// Constants
-//
 const moduleName = 'RegisterHandler'
 //.................................
 //  Object returned by this module

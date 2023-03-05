@@ -1,12 +1,12 @@
 //!==================================================================================
-//! Run Raw SQL
+//! Run Hello
 //!==================================================================================
 //
 //  Debug Settings
 //
 const debugSettings = require('../debug/debugSettings')
 const debugLog = debugSettings.debugSettings()
-const moduleName = 'RawHandler'
+const moduleName = 'HelloHandler'
 //.................................
 //  Object returned by this module
 //.................................
@@ -22,7 +22,7 @@ const rtnObj = {
 //==================================================================================
 //= Main ASYNC Function
 //==================================================================================
-async function RawHandler(db, bodyParms) {
+async function HelloHandler(db, bodyParms) {
   try {
     //
     //  Initialise Values
@@ -40,58 +40,33 @@ async function RawHandler(db, bodyParms) {
     //
     //  Destructure Parameters
     //
-    const { sqlAction, sqlString, sqlTable, sqlWhere, sqlOrderByRaw, sqlRow, sqlKeyName } =
-      bodyParms
+    const { helloType } = bodyParms
     if (debugLog) console.log(`module(${moduleName}) bodyParms `, bodyParms)
     //
-    // Check values sent
+    //  Check Action passed
     //
-    if (!sqlAction) {
-      rtnObj.rtnMessage = `SqlAction parameter not passed`
+    if (!helloType) {
+      rtnObj.rtnMessage = `helloType not sent as Body Parameters`
       return rtnObj
     }
     //
-    //  Validate sqlAction type
+    //  Validate helloType type
     //
-    if (
-      sqlAction !== 'DELETE' &&
-      sqlAction !== 'EXIST' &&
-      sqlAction !== 'SELECTSQL' &&
-      sqlAction !== 'SELECT' &&
-      sqlAction !== 'INSERT' &&
-      sqlAction !== 'UPDATE' &&
-      sqlAction !== 'UPSERT'
-    ) {
-      rtnObj.rtnMessage = `SqlAction ${sqlAction}: SqlAction not valid`
+    if (helloType !== 'SERVER' && helloType !== 'DATABASE') {
+      rtnObj.rtnMessage = `sqlAction ${helloType}: helloType not valid`
       return rtnObj
     }
     //
-    //  SELECTSQL needs sqlString
+    // Check Server (ASYNC)
     //
-    if (sqlAction === 'SELECTSQL' && !sqlString) {
-      rtnObj.rtnMessage = `SqlAction ${sqlAction}: sqlString not passed`
+    if (helloType === 'SERVER') {
+      await checkServer()
       return rtnObj
     }
     //
-    //  not SELECTSQL needs table
+    // Check Database (ASYNC)
     //
-    if (sqlAction !== 'SELECTSQL' && !sqlTable) {
-      rtnObj.rtnMessage = `SqlAction ${sqlAction}: sqlTable not passed`
-      return rtnObj
-    }
-    //
-    // Get Database record (ASYNC)
-    //
-    await sqlDatabase(
-      db,
-      sqlAction,
-      sqlString,
-      sqlTable,
-      sqlWhere,
-      sqlOrderByRaw,
-      sqlRow,
-      sqlKeyName
-    )
+    await sqlDatabase(db)
     return rtnObj
     //
     // Errors
@@ -107,73 +82,49 @@ async function RawHandler(db, bodyParms) {
 //!==================================================================================
 //! Main function - Await
 //!==================================================================================
-async function sqlDatabase(
-  db,
-  sqlAction,
-  sqlString,
-  sqlTable,
-  sqlWhere,
-  sqlOrderByRaw,
-  sqlRow,
-  sqlKeyName
-) {
+async function checkServer() {
+  try {
+    //-------------------------------------------------------------
+    //  Registration SUCCESS
+    //-------------------------------------------------------------
+    rtnObj.rtnValue = true
+    rtnObj.rtnMessage = `Hello: SUCCESS`
+    return
+    //-------------------------------------------------------------
+    // Errors
+    //-------------------------------------------------------------
+  } catch (err) {
+    rtnObj.rtnCatch = true
+    rtnObj.rtnCatchMsg = err.message
+    rtnObj.rtnCatchFunction = moduleName
+    return
+  }
+}
+//!==================================================================================
+//! Increment connection counts
+//!==================================================================================
+async function sqlDatabase(db) {
   //
   // Define Return Variable
   //
   let sqlData
-  let returning = false
+  const sqlTable = 'dbinfo'
+  const sqlAction = 'Increment'
   //
   //  Try/Catch
   //
   try {
-    switch (sqlAction) {
-      case 'SELECTSQL':
-        sqlData = await db.select(db.raw(sqlString))
-        break
-      case 'SELECT':
-        if (sqlOrderByRaw) {
-          sqlData = await db.select('*').from(sqlTable).whereRaw(sqlWhere).orderByRaw(sqlOrderByRaw)
-        } else {
-          sqlData = await db.select('*').from(sqlTable).whereRaw(sqlWhere)
-        }
-        break
-      case 'UPDATE':
-        returning = true
-        sqlData = await db.update(sqlRow).from(sqlTable).whereRaw(sqlWhere).returning(['*'])
-
-        break
-      case 'DELETE':
-        returning = true
-        sqlData = await db.del().from(sqlTable).whereRaw(sqlWhere).returning(['*'])
-        break
-      case 'INSERT':
-        returning = true
-        if (sqlKeyName) {
-          sqlData = await db
-            .insert(sqlRow)
-            .into(sqlTable)
-            .returning(['*'])
-            .onConflict(sqlKeyName)
-            .ignore()
-        } else {
-          sqlData = await db.insert(sqlRow).into(sqlTable).returning(['*'])
-        }
-        break
-      case 'UPSERT':
-        returning = true
-        sqlData = await db
-          .insert(sqlRow)
-          .into(sqlTable)
-          .returning(['*'])
-          .onConflict(sqlKeyName)
-          .merge()
-        break
-    }
+    sqlData = await db
+      .from(sqlTable)
+      .increment({
+        dbvisits: 1
+      })
+      .returning(['*'])
     //
     //  Expect returning value
     //
     if (debugLog) console.log(`module(${moduleName}) sqlData `, sqlData)
-    if (returning && (!sqlData || !sqlData[0])) {
+    if (!sqlData || !sqlData[0]) {
       rtnObj.rtnMessage = `SqlAction ${sqlAction}: FAILED`
       return
     }
@@ -199,5 +150,5 @@ async function sqlDatabase(
 //! Exports
 //!==================================================================================
 module.exports = {
-  RawHandler
+  HelloHandler
 }
