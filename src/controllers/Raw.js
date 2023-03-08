@@ -94,6 +94,18 @@ async function Raw(req, res, db, logCounter) {
       console.log(`Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) rtnObj `, rtnObj)
     }
     //
+    //  Catch
+    //
+    const rtnCatch = rtnObj.rtnCatch
+    if (rtnCatch) {
+      if (debugLog) {
+        console.log(
+          `Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) message(${rtnObj.rtnCatchMsg})`
+        )
+      }
+      return res.status(420).json(rtnObj)
+    }
+    //
     //  Log return values
     //
     const records = Object.keys(rtnObj.rtnRows).length

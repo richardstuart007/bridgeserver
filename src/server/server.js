@@ -389,6 +389,6 @@ function logHello(req) {
   //
   // Format message & Log
   //
-  let logMessage = `Server.. ${logCounter} Time:${TimeStamp} Module(${moduleName}) sqlClient(${sqlClient}) helloType(${helloType})`
+  let logMessage = `Server.. ${logCounter} Time:${TimeStamp} Module(${moduleName}) sqlClient(${sqlClient}) HelloType(${helloType})`
   console.log(logMessage)
 }

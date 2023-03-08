@@ -69,16 +69,26 @@ async function Signin(req, res, db, logCounter) {
     if (debugLog) {
       console.log(`Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) rtnObj `, rtnObj)
     }
-    const rtnValue = rtnObj.rtnValue
+    //
+    //  Catch
+    //
+    const rtnCatch = rtnObj.rtnCatch
+    if (rtnCatch) {
+      if (debugLog) {
+        console.log(
+          `Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) message(${rtnObj.rtnCatchMsg})`
+        )
+      }
+      return res.status(420).json(rtnObj)
+    }
     //
     //  Not found
     //
+    const rtnValue = rtnObj.rtnValue
     if (!rtnValue) {
       if (debugLog) {
-        let message
-        rtnObj.rtnCatch ? (message = rtnObj.rtnCatchMsg) : (message = rtnObj.rtnMessage)
         console.log(
-          `Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) message(${message})`
+          `Handler. ${logCounter} Time:${TimeStamp} Module(${moduleName}) message(${rtnObj.rtnMessage})`
         )
       }
       return res.status(220).json(rtnObj)

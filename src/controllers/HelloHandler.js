@@ -131,8 +131,9 @@ async function sqlDatabase(db) {
     //
     // Update Return Values
     //
+    const dbvisits = sqlData[0].dbvisits
     rtnObj.rtnValue = true
-    rtnObj.rtnMessage = `SqlAction ${sqlAction}: SUCCESS`
+    rtnObj.rtnMessage = `SqlAction ${sqlAction}: SUCCESS - Updated visits(${dbvisits})`
     rtnObj.rtnRows = sqlData
     return
     //
