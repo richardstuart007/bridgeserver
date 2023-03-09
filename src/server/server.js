@@ -59,11 +59,11 @@ app.use(express.json())
 // --------------------
 //  Cors Middleware
 // --------------------
-let CORS_WHITELIST
+let cors_Whitelist
 getWhiteList()
-if (debugLog) console.log('CORS_WHITELIST ', CORS_WHITELIST)
+if (debugLog) console.log('cors_Whitelist ', cors_Whitelist)
 const corsOptions = {
-  origin: CORS_WHITELIST,
+  origin: cors_Whitelist,
   optionsSuccessStatus: 200,
   methods: ['POST', 'DELETE', 'OPTIONS']
 }
@@ -138,11 +138,13 @@ myRouter.post(URL_REGISTER, (req, res) => {
 //.............................................................................
 //.  Start Server
 //.............................................................................
-let SERVERPORT
+let serverPort
 getServerPort()
 const TimeStamp = format(new Date(), 'yyLLddHHmmss')
-let logMessage = `Server.. ${logCounter} Time:${TimeStamp} Module(${moduleName}) running on PORT(${SERVERPORT})`
-app.listen(SERVERPORT, () => console.log(logMessage))
+let logMessage = `Server.. ${logCounter} Time:${TimeStamp} Module(${moduleName}) running on PORT(${serverPort})`
+const server = app.listen(serverPort, () => console.log(logMessage))
+server.keepAliveTimeout = 30000
+server.headersTimeout = 31000
 //.............................................................................
 //.  get the WhiteList
 //.............................................................................
@@ -164,34 +166,34 @@ function getWhiteList() {
   //
   switch (server_database) {
     case '01':
-      CORS_WHITELIST = CORS_WHITELIST_SRVREM_DB1
+      cors_Whitelist = CORS_WHITELIST_SRVREM_DB1
       break
     case '02':
-      CORS_WHITELIST = CORS_WHITELIST_SRVREM_DB2
+      cors_Whitelist = CORS_WHITELIST_SRVREM_DB2
       break
     case '03':
-      CORS_WHITELIST = CORS_WHITELIST_SRVREM_DB3
+      cors_Whitelist = CORS_WHITELIST_SRVREM_DB3
       break
     case '04':
-      CORS_WHITELIST = CORS_WHITELIST_SRVREM_DB4
+      cors_Whitelist = CORS_WHITELIST_SRVREM_DB4
       break
     case '11':
-      CORS_WHITELIST = CORS_WHITELIST_SRVLOC_DB1
+      cors_Whitelist = CORS_WHITELIST_SRVLOC_DB1
       break
     case '12':
-      CORS_WHITELIST = CORS_WHITELIST_SRVLOC_DB2
+      cors_Whitelist = CORS_WHITELIST_SRVLOC_DB2
       break
     case '13':
-      CORS_WHITELIST = CORS_WHITELIST_SRVLOC_DB3
+      cors_Whitelist = CORS_WHITELIST_SRVLOC_DB3
       break
     case '14':
-      CORS_WHITELIST = CORS_WHITELIST_SRVLOC_DB4
+      cors_Whitelist = CORS_WHITELIST_SRVLOC_DB4
       break
     case '16':
-      CORS_WHITELIST = CORS_WHITELIST_SRVLOC_DB6
+      cors_Whitelist = CORS_WHITELIST_SRVLOC_DB6
       break
     case '17':
-      CORS_WHITELIST = CORS_WHITELIST_SRVLOC_DB7
+      cors_Whitelist = CORS_WHITELIST_SRVLOC_DB7
       break
     default:
   }
@@ -377,34 +379,34 @@ function getServerPort() {
   //
   switch (server_database) {
     case '01':
-      SERVERPORT = SERVERPORT_SRVREM_DB1
+      serverPort = SERVERPORT_SRVREM_DB1
       break
     case '02':
-      SERVERPORT = SERVERPORT_SRVREM_DB2
+      serverPort = SERVERPORT_SRVREM_DB2
       break
     case '03':
-      SERVERPORT = SERVERPORT_SRVREM_DB3
+      serverPort = SERVERPORT_SRVREM_DB3
       break
     case '04':
-      SERVERPORT = SERVERPORT_SRVREM_DB4
+      serverPort = SERVERPORT_SRVREM_DB4
       break
     case '11':
-      SERVERPORT = SERVERPORT_SRVLOC_DB1
+      serverPort = SERVERPORT_SRVLOC_DB1
       break
     case '12':
-      SERVERPORT = SERVERPORT_SRVLOC_DB2
+      serverPort = SERVERPORT_SRVLOC_DB2
       break
     case '13':
-      SERVERPORT = SERVERPORT_SRVLOC_DB3
+      serverPort = SERVERPORT_SRVLOC_DB3
       break
     case '14':
-      SERVERPORT = SERVERPORT_SRVLOC_DB4
+      serverPort = SERVERPORT_SRVLOC_DB4
       break
     case '16':
-      SERVERPORT = SERVERPORT_SRVLOC_DB6
+      serverPort = SERVERPORT_SRVLOC_DB6
       break
     case '17':
-      SERVERPORT = SERVERPORT_SRVLOC_DB7
+      serverPort = SERVERPORT_SRVLOC_DB7
       break
     default:
   }
