@@ -143,8 +143,9 @@ getServerPort()
 const TimeStamp = format(new Date(), 'yyLLddHHmmss')
 let logMessage = `Server.. ${logCounter} Time:${TimeStamp} Module(${moduleName}) running on PORT(${serverPort})`
 const server = app.listen(serverPort, () => console.log(logMessage))
-server.keepAliveTimeout = 30000
-server.headersTimeout = 31000
+const { KEEP_ALIVE_TIMEOUT, HEADERS_TIMEOUT } = require('../constants.js')
+server.keepAliveTimeout = KEEP_ALIVE_TIMEOUT
+server.headersTimeout = HEADERS_TIMEOUT
 //.............................................................................
 //.  get the WhiteList
 //.............................................................................
