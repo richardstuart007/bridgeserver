@@ -3,8 +3,8 @@
   "homepage": "http://.",
   "version": "1.22.0",
   "description": "Bridge School Server",
-  "main": "node src/server/serverRemote2.js",
   "scripts": {
+    "start": "node src/server/server.js 01",
     "start01": "node src/server/server.js 01",
     "start02": "node src/server/server.js 02",
     "start11": "node src/server/server.js 11",
