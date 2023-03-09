@@ -151,9 +151,11 @@ function getWhiteList() {
     CORS_WHITELIST_SRVREM_DB1,
     CORS_WHITELIST_SRVREM_DB2,
     CORS_WHITELIST_SRVREM_DB3,
+    CORS_WHITELIST_SRVREM_DB4,
     CORS_WHITELIST_SRVLOC_DB1,
     CORS_WHITELIST_SRVLOC_DB2,
     CORS_WHITELIST_SRVLOC_DB3,
+    CORS_WHITELIST_SRVLOC_DB4,
     CORS_WHITELIST_SRVLOC_DB6,
     CORS_WHITELIST_SRVLOC_DB7
   } = require('../constants.js')
@@ -170,6 +172,9 @@ function getWhiteList() {
     case '03':
       CORS_WHITELIST = CORS_WHITELIST_SRVREM_DB3
       break
+    case '04':
+      CORS_WHITELIST = CORS_WHITELIST_SRVREM_DB4
+      break
     case '11':
       CORS_WHITELIST = CORS_WHITELIST_SRVLOC_DB1
       break
@@ -178,6 +183,9 @@ function getWhiteList() {
       break
     case '13':
       CORS_WHITELIST = CORS_WHITELIST_SRVLOC_DB3
+      break
+    case '14':
+      CORS_WHITELIST = CORS_WHITELIST_SRVLOC_DB4
       break
     case '16':
       CORS_WHITELIST = CORS_WHITELIST_SRVLOC_DB6
@@ -224,6 +232,17 @@ function getknexparams() {
     KNEX_USER3,
     KNEX_PWD3,
     KNEX_DATABASE3
+  } = require('../constants.js')
+  //
+  // Database 4
+  //
+  const {
+    KNEX_PORT4,
+    KNEX_CLIENT4,
+    KNEX_HOST4,
+    KNEX_USER4,
+    KNEX_PWD4,
+    KNEX_DATABASE4
   } = require('../constants.js')
   //
   // Database 6
@@ -275,6 +294,14 @@ function getknexparams() {
       KNEX_DATABASE = KNEX_DATABASE3
       KNEX_PORT = KNEX_PORT3
       break
+    case '04':
+      KNEX_CLIENT = KNEX_CLIENT4
+      KNEX_HOST = KNEX_HOST4
+      KNEX_USER = KNEX_USER4
+      KNEX_PWD = KNEX_PWD4
+      KNEX_DATABASE = KNEX_DATABASE4
+      KNEX_PORT = KNEX_PORT4
+      break
     case '11':
       KNEX_CLIENT = KNEX_CLIENT1
       KNEX_HOST = KNEX_HOST1
@@ -298,6 +325,14 @@ function getknexparams() {
       KNEX_PWD = KNEX_PWD3
       KNEX_DATABASE = KNEX_DATABASE3
       KNEX_PORT = KNEX_PORT3
+      break
+    case '14':
+      KNEX_CLIENT = KNEX_CLIENT4
+      KNEX_HOST = KNEX_HOST4
+      KNEX_USER = KNEX_USER4
+      KNEX_PWD = KNEX_PWD4
+      KNEX_DATABASE = KNEX_DATABASE4
+      KNEX_PORT = KNEX_PORT4
       break
     case '16':
       KNEX_CLIENT = KNEX_CLIENT6
@@ -332,6 +367,8 @@ function getServerPort() {
     SERVERPORT_SRVLOC_DB2,
     SERVERPORT_SRVREM_DB3,
     SERVERPORT_SRVLOC_DB3,
+    SERVERPORT_SRVREM_DB4,
+    SERVERPORT_SRVLOC_DB4,
     SERVERPORT_SRVLOC_DB6,
     SERVERPORT_SRVLOC_DB7
   } = require('../constants.js')
@@ -348,6 +385,9 @@ function getServerPort() {
     case '03':
       SERVERPORT = SERVERPORT_SRVREM_DB3
       break
+    case '04':
+      SERVERPORT = SERVERPORT_SRVREM_DB4
+      break
     case '11':
       SERVERPORT = SERVERPORT_SRVLOC_DB1
       break
@@ -356,6 +396,9 @@ function getServerPort() {
       break
     case '13':
       SERVERPORT = SERVERPORT_SRVLOC_DB3
+      break
+    case '14':
+      SERVERPORT = SERVERPORT_SRVLOC_DB4
       break
     case '16':
       SERVERPORT = SERVERPORT_SRVLOC_DB6
