@@ -17,6 +17,15 @@ exports.KNEX_USER2 = 'postgres'
 exports.KNEX_PWD2 = 'MpshoqIm2WsiSFOTH2j8'
 exports.KNEX_DATABASE2 = 'railway'
 //------------------------------------------------------------------------
+//  Database (Remote 3)
+//------------------------------------------------------------------------
+exports.KNEX_CLIENT3 = 'pg'
+exports.KNEX_PORT3 = 5432
+exports.KNEX_HOST3 = 'rosie.db.elephantsql.com'
+exports.KNEX_USER3 = 'wdscnzxj'
+exports.KNEX_PWD3 = 'O-7H6IKT6Hhi_xGU7J_rHSBjvbNO218s'
+exports.KNEX_DATABASE3 = 'wdscnzxj'
+//------------------------------------------------------------------------
 //  Database (Local 6)
 //------------------------------------------------------------------------
 exports.KNEX_CLIENT6 = 'pg'
@@ -37,8 +46,10 @@ exports.KNEX_DATABASE7 = 'bridge7'
 //------------------------------------------------------------------------
 exports.SERVERPORT_SRVREM_DB1 = 3901
 exports.SERVERPORT_SRVREM_DB2 = 3902
+exports.SERVERPORT_SRVREM_DB3 = 3903
 exports.SERVERPORT_SRVLOC_DB1 = 3911
 exports.SERVERPORT_SRVLOC_DB2 = 3912
+exports.SERVERPORT_SRVLOC_DB3 = 3913
 exports.SERVERPORT_SRVLOC_DB6 = 3916
 exports.SERVERPORT_SRVLOC_DB7 = 3917
 //---------------------------------------------------------------------
@@ -56,8 +67,15 @@ exports.CORS_WHITELIST_SRVREM_DB2 = [
   'http://localhost:3802',
   'http://localhost:3702'
 ]
+exports.CORS_WHITELIST_SRVREM_DB3 = [
+  'https://bridgeclient.cyclic.app/',
+  'https://bridgedataentry.cyclic.app/',
+  'http://localhost:3803',
+  'http://localhost:3703'
+]
 exports.CORS_WHITELIST_SRVLOC_DB1 = ['http://localhost:3811', 'http://localhost:3711']
 exports.CORS_WHITELIST_SRVLOC_DB2 = ['http://localhost:3812', 'http://localhost:3712']
+exports.CORS_WHITELIST_SRVLOC_DB3 = ['http://localhost:3813', 'http://localhost:3713']
 exports.CORS_WHITELIST_SRVLOC_DB6 = ['http://localhost:3816', 'http://localhost:3716']
 exports.CORS_WHITELIST_SRVLOC_DB7 = ['http://localhost:3817', 'http://localhost:3717']
 //------------------------------------------------------------------------
