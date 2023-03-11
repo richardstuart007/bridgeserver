@@ -140,7 +140,7 @@ myRouter.post(URL_REGISTER, (req, res) => {
 //.............................................................................
 let serverPort
 getServerPort()
-const TimeStamp = format(new Date(), 'yyLLddHHmmss')
+const TimeStamp = format(new Date(), 'HHmmss')
 let logMessage = `Server.. ${logCounter} Time:${TimeStamp} Module(${moduleName}) running on PORT(${serverPort})`
 const server = app.listen(serverPort, () => console.log(logMessage))
 const { KEEP_ALIVE_TIMEOUT, HEADERS_TIMEOUT } = require('../constants.js')
@@ -424,7 +424,7 @@ function logRawTables(req, fetchAction, fetchRoute, handler) {
   //
   //  Timestamp and Counter
   //
-  const TimeStamp = format(new Date(), 'yyLLddHHmmss')
+  const TimeStamp = format(new Date(), 'HHmmss')
   logCounter++
   //
   //  Format Message & Log
@@ -455,7 +455,7 @@ function logRawSignIn(req, fetchAction) {
   //
   //  Counter
   //
-  const TimeStamp = format(new Date(), 'yyLLddHHmmss')
+  const TimeStamp = format(new Date(), 'HHmmss')
   logCounter = logCounter + 2
   //
   // Format message & Log
@@ -476,7 +476,7 @@ function logHello(req) {
   //
   //  Counter
   //
-  const TimeStamp = format(new Date(), 'yyLLddHHmmss')
+  const TimeStamp = format(new Date(), 'HHmmss')
   logCounter++
   //
   // Format message & Log
