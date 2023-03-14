@@ -18,7 +18,7 @@ const Signin = require('../controllers/Signin')
 //  Debug Settings
 //
 const debugSettings = require('../debug/debugSettings')
-const debugLog = debugSettings.debugSettings()
+const debugLog = debugSettings.debugSettings(true)
 //.............................................................................
 //.  Initialisation
 //.............................................................................
@@ -27,9 +27,16 @@ const debugLog = debugSettings.debugSettings()
 //
 const node_module = process.argv[0]
 const script_path = process.argv[1]
-const server_database = process.argv[2]
+let server_database = process.argv[2]
+const env_database = process.env.DATABASE
 if (debugLog) console.log('node_module ', node_module)
 if (debugLog) console.log('script_path ', script_path)
+if (debugLog) console.log('server_database ', server_database)
+if (debugLog) console.log('env_database ', env_database)
+//
+//  Override database if not sent
+//
+if (!server_database) server_database = env_database
 if (debugLog) console.log('server_database ', server_database)
 //
 //  Check if server is remote version run locally
