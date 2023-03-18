@@ -1,12 +1,12 @@
 //!==================================================================================
-//! Run Hello
+//! Run updCounter
 //!==================================================================================
 //
 //  Debug Settings
 //
 const debugSettings = require('../debug/debugSettings')
 const debugLog = debugSettings.debugSettings()
-const moduleName = 'HelloHandler'
+const moduleName = 'updCounter'
 //.................................
 //  Object returned by this module
 //.................................
@@ -22,7 +22,7 @@ const rtnObj = {
 //==================================================================================
 //= Main ASYNC Function
 //==================================================================================
-async function HelloHandler(db, bodyParms) {
+async function updCounter(db, dbKey, dbCounter) {
   try {
     //
     //  Initialise Values
@@ -37,36 +37,12 @@ async function HelloHandler(db, bodyParms) {
     //..................................................................................
     //. Parameter Validation
     //..................................................................................
-    //
-    //  Destructure Parameters
-    //
-    const { helloType } = bodyParms
-    if (debugLog) console.log(`module(${moduleName}) bodyParms `, bodyParms)
-    //
-    //  Check Action passed
-    //
-    if (!helloType) {
-      rtnObj.rtnMessage = `helloType not sent as Body Parameters`
-      return rtnObj
-    }
-    //
-    //  Validate helloType type
-    //
-    if (helloType !== 'SERVER' && helloType !== 'DATABASE') {
-      rtnObj.rtnMessage = `sqlAction ${helloType}: helloType not valid`
-      return rtnObj
-    }
-    //
-    // Check Server (ASYNC)
-    //
-    if (helloType === 'SERVER') {
-      await checkServer()
-      return rtnObj
-    }
+    if (debugLog) console.log(`module(${moduleName}) dbKey `, dbKey)
+    if (debugLog) console.log(`module(${moduleName}) dbCounter `, dbCounter)
     //
     // Check Database (ASYNC)
     //
-    await sqlDatabase(db)
+    await sqlDatabase(db, dbKey, dbCounter)
     return rtnObj
     //
     // Errors
@@ -80,61 +56,47 @@ async function HelloHandler(db, bodyParms) {
   }
 }
 //!==================================================================================
-//! Main function - Await
+//! Increment counts
 //!==================================================================================
-async function checkServer() {
-  try {
-    //-------------------------------------------------------------
-    //  Registration SUCCESS
-    //-------------------------------------------------------------
-    rtnObj.rtnValue = true
-    rtnObj.rtnMessage = `Hello: SUCCESS`
-    return
-    //-------------------------------------------------------------
-    // Errors
-    //-------------------------------------------------------------
-  } catch (err) {
-    rtnObj.rtnCatch = true
-    rtnObj.rtnCatchMsg = err.message
-    rtnObj.rtnCatchFunction = moduleName
-    return
-  }
-}
-//!==================================================================================
-//! Increment connection counts
-//!==================================================================================
-async function sqlDatabase(db) {
+async function sqlDatabase(db, dbKey, dbCounter) {
   //
   // Define Return Variable
   //
-  let sqlData
-  const sqlTable = 'dbinfo'
+  let rtnData
+  const sqlTable = 'dbstats'
   const sqlAction = 'Increment'
+  const sqlString = `UPDATE ${sqlTable} SET ${dbCounter} = ${dbCounter} + 1 WHERE dbKey = '${dbKey}' RETURNING *`
+  if (debugLog) console.log(`module(${moduleName}) sqlString `, sqlString)
   //
   //  Try/Catch
   //
   try {
-    sqlData = await db
-      .from(sqlTable)
-      .increment({
-        dbvisits: 1
-      })
-      .returning(['*'])
+    rtnData = await db.raw(sqlString)
     //
     //  Expect returning value
     //
-    if (debugLog) console.log(`module(${moduleName}) sqlData `, sqlData)
-    if (!sqlData || !sqlData[0]) {
+    if (!rtnData || !rtnData.rows[0]) {
       rtnObj.rtnMessage = `SqlAction ${sqlAction}: FAILED`
       return
     }
     //
     // Update Return Values
     //
-    const dbvisits = sqlData[0].dbvisits
+    const rows = rtnData.rows
+    if (debugLog) console.log(`module(${moduleName}) rows `, rows)
+    const record = rows[0]
+    if (debugLog) console.log(`module(${moduleName}) record `, record)
+    let dbcount = 0
+    dbCounter === 'dbcount1'
+      ? (dbcount = record.dbcount1)
+      : dbCounter === 'dbcount2'
+      ? (dbcount = record.dbcount2)
+      : (dbcount = record.dbcount3)
+
     rtnObj.rtnValue = true
-    rtnObj.rtnMessage = `SqlAction ${sqlAction}: SUCCESS - Updated visits(${dbvisits})`
-    rtnObj.rtnRows = sqlData
+    rtnObj.rtnMessage = `SqlAction ${sqlAction}: SUCCESS - Updated ${dbCounter} ${dbcount}`
+    rtnObj.rtnRows = rows
+    if (debugLog) console.log(`module(${moduleName}) rtnMessage `, rtnObj.rtnMessage)
     return
     //
     // Errors
@@ -151,5 +113,5 @@ async function sqlDatabase(db) {
 //! Exports
 //!==================================================================================
 module.exports = {
-  HelloHandler
+  updCounter
 }
