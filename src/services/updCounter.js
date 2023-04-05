@@ -5,7 +5,7 @@
 //  Debug Settings
 //
 const debugSettings = require('../debug/debugSettings')
-const debugLog = debugSettings.debugSettings(true)
+const debugLog = debugSettings.debugSettings()
 const moduleName = 'updCounter'
 //==================================================================================
 //= Main ASYNC Function
